@@ -1,4 +1,4 @@
-# sonkwo_community_vue
+# node community vue project
 
 > A Vue.js project
 
