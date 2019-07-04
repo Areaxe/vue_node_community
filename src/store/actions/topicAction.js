@@ -17,8 +17,26 @@ const getTopicDetail = ({commit,state},params)=>{
     })
 }
 
+const collectTopic = ({commit},params)=>{
+    return axios.post('/api/topic_collect/collect',{
+        params,
+    }).then(res=>{
+        commit('collectTopic',res.data.data);
+    })
+}
+
+const deCollextTopic = ({commit},params)=>{
+    return axios.post('/api/topic_collect/de_collect ',{
+        params,
+    }).then(res=>{
+        commit('deCollextTopic',res.data.data);
+    })
+}
+
 
 export default {
     getTopicList,
     getTopicDetail,
+    collectTopic,
+    deCollextTopic,
 }

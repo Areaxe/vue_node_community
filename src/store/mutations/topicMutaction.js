@@ -12,8 +12,20 @@ const saveTopicDetail = (state,data) =>{
     state.topicDetail[data.id] = data;
 }
 
+const collectTopic = (state,data) =>{
+    state.topicDetail[data.id].is_collect = true;
+}
+
+const deCollectTopic = (state,data) =>{
+    state.topicDetail[data.id].is_collect = false;
+}
+
+
+
 module.exports = {
     getTopicList,
     saveTopicPageInfo,
-    saveTopicDetail
+    saveTopicDetail,
+    collectTopic,
+    deCollectTopic,
 }

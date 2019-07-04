@@ -1,7 +1,7 @@
 <template>
     <div class="home-page">
-        <el-tabs class="header" v-model="query.tab" @tab-click="onTabClick">
-            <el-tab-pane v-loading="loading" element-loading-text="数据加载中..." element-loading-spinner="el-icon-loading" v-for="item in navs" :key="item.value" :label="item.title" :name="item.value">
+        <el-tabs v-model="query.tab" @tab-click="onTabClick">
+            <el-tab-pane v-loading="loading" element-loading-text="Loading..." element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.1)" v-for="item in navs" :key="item.value" :label="item.title" :name="item.value">
                 <div class="item-container" v-on:scroll="onItemScroll">
                     <topic-item v-for="info in topics && topics[item.value] ||[]" :info="info" :key="info.id" :onclick="toTopicDetail"></topic-item>
                 </div>
@@ -36,7 +36,6 @@ export default {
     },
     watch: {
         '$route' (to, from) {
-            // 刷新参数放到这里里面去触发就可以刷新相同界面了
             this.getTopics()
         }
     },
@@ -47,7 +46,7 @@ export default {
         },
 
         getTopics(isForce) {
-            let tab = this.$route.query.type;
+            let tab = this.$route.query.type || 'good';
             let pageInfo = this.pageInfo;
             let topics = this.topics || {};
             let store = this.$store;
@@ -64,15 +63,16 @@ export default {
                 limit: 10,
             }
             this.loading = true;
-            store.dispatch('getTopicList', params).then(() => {
+            store.dispatch('getTopicList', params).then((state) => {
+                store.commit('saveTopicPageInfo', {
+                    type: tab,
+                    page,
+                });
                 this.loading = false;
                 this.topics = store.state.topics;
                 this.pageInfo = store.state.topicPageInfo;
 
-                this.$store.commit('saveTopicPageInfo', {
-                    type: tab,
-                    page,
-                });
+
             });
         },
 
@@ -107,29 +107,30 @@ export default {
 
 
 <style lang="less">
+@headerHeight: 52px;
 .home-page {
-    .el-loading-mask {
-        font-size: 36px;
-    }
     .el-tabs__nav-wrap::after {
         height: 1px;
     }
     .el-tab-pane {
-        min-height: calc(100vh - 60px);
+        min-height: calc(100vh - @headerHeight);
     }
-}
-
-.el-tabs__nav {
-    margin-left: 60px;
-}
-
-.el-tabs__item {
-    line-height: 60px;
-    height: 60px;
 }
 
 .el-tabs__header {
     margin: 0;
+    // position: absolute;
+    top:0;
+}
+
+.el-tabs__nav {
+    margin-left: calc(50vw - 124px);
+}
+
+.el-tabs__item {
+    line-height: @headerHeight;
+    height: @headerHeight;
+    font-size: 16px;
 }
 </style>
 
@@ -141,12 +142,12 @@ export default {
 
 .item-container {
     overflow-y: auto;
-    max-height: calc(100vh - 60px);
+    max-height: calc(100vh - 120px);
     padding-top: 8px;
 }
 
 .header {
-    position: fixed;
+    // position: fixed;
     top: 0;
     width: 100vw;
 }

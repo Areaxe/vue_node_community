@@ -58,6 +58,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .topic-item {
+    background-color: #fff;
     padding: 10px 20px;
     border-bottom: solid 1px #f0f0f0;
 }
