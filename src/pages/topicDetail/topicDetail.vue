@@ -101,6 +101,12 @@ export default {
     }
 }
 
+@media screen and (min-width: 1100px) {
+    .topic-detail{
+        margin: 30px auto 0 auto;
+    }
+}
+
 .title {
     margin: 10px 0;
 }

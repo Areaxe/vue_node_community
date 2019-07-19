@@ -1,7 +1,7 @@
 <template>
     <div class="home-page">
         <el-tabs v-model="query.tab" @tab-click="onTabClick">
-            <el-tab-pane v-loading="loading" element-loading-text="Loading..." element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255, 0.5)" v-for="item in navs" :key="item.value" :label="item.title" :name="item.value">
+            <el-tab-pane v-loading="loading" element-loading-text="Loading..." element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255, 0.1)" v-for="item in navs" :key="item.value" :label="item.title" :name="item.value">
                 <div class="item-container" v-on:scroll="onItemScroll">
                     <topic-item v-for="info in topics && topics[item.value] ||[]" :info="info" :key="info.id" :onclick="toTopicDetail"></topic-item>
                 </div>
@@ -23,7 +23,7 @@ export default {
     data() {
         let { topics, topicPageInfo } = this.$store.state || {};
         return {
-            loading: false,
+            loading: true,
             navs: [
                 { title: '精华', value: 'good' },
                 { title: '分享', value: 'share' },

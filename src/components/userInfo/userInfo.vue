@@ -2,7 +2,7 @@
     <div class="user-info">
         <img class="user-logo" :src="author.avatar_url" />
         <div class="other-info">
-            <p class="user-name">{{author.loginname}}</p>
+            <router-link :to="'/user/'+author.loginname" class="user-name">{{author.loginname}}</router-link>
             <p class="create-at">发表于:{{createTime}}</p>
         </div>
     </div>
@@ -22,7 +22,7 @@ export default {
     props: ['info'],
     computed: {
         author: vm => vm.info.author || {},
-         createTime: vm => {
+        createTime: vm => {
             let time = vm.info.create_at;
             return moment(time).format('YYYY-MM-DD HH:mm:ss');
         },
@@ -58,6 +58,10 @@ export default {
 
 .user-name {
     color: #409EFF;
+    text-decoration: none;
+    &:hover{
+        text-decoration: underline;
+    }
 }
 
 .interaction {

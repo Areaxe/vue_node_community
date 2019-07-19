@@ -1,25 +1,21 @@
 <template>
-    <div class="topic-item" v-on:click="onItemClick">
-        <div>
-            <img class="user-logo" :src="author.avatar_url" />
-            <div class="other-info">
-                <p class="user-name">{{author.loginname}}</p>
-                <p class="create-at">发表于:{{createTime}}</p>
+    <div class="topic-item">
+        <user-info :info="info" />
+        <div v-on:click="onItemClick">
+            <div class="title">{{info.title}}</div>
+            <div class="content">{{content}}</div>
+            <div class="interaction">
+                <span class="interaction-item">
+                                        <i class="el-icon-chat-line-round"></i>
+                                        {{info.reply_count||0}}
+                                        条评论
+                                        </span>
+                <span class="interaction-item">
+                                        <i class="el-icon-view"></i>
+                                        {{info.visit_count}}
+                                        次查看
+                                        </span>
             </div>
-        </div>
-        <div class="title">{{info.title}}</div>
-        <div class="content">{{content}}</div>
-        <div class="interaction">
-            <span class="interaction-item">
-                                <i class="el-icon-chat-line-round"></i>
-                                {{info.reply_count||0}}
-                                条评论
-                                </span>
-            <span class="interaction-item">
-                                <i class="el-icon-view"></i>
-                                {{info.visit_count}}
-                                次查看
-                                </span>
         </div>
     </div>
 </template>
@@ -27,6 +23,7 @@
 <script>
 import router from 'vue-router';
 import moment from 'moment';
+import UserInfo from '@/components/userInfo/userInfo';
 
 export default {
     name: 'sonkwoheader',
@@ -34,6 +31,9 @@ export default {
         return {}
     },
     props: ['info', 'onclick'],
+    components: {
+        UserInfo,
+    },
     computed: {
         author: vm => vm.info.author || {},
         createTime: vm => {
@@ -47,8 +47,8 @@ export default {
     },
     methods: {
         onItemClick(e) {
-            if(this.onclick){
-                this.onclick(e,this.info);
+            if (this.onclick) {
+                this.onclick(e, this.info);
             }
         }
     }
